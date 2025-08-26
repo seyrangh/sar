@@ -75,7 +75,7 @@ async function generateExplanation(topic: string): Promise<any> {
       pathophysiology: `Explain the underlying pathophysiology and mechanisms of "${topic}". Include cellular processes, biochemical pathways, and how the disease develops at a molecular level.`,
     };
 
-    const results: any = {};
+    const results: Record<string, string> = {};
 
     // Generate all explanations in parallel for better performance
     const explanationPromises = Object.entries(prompts).map(
@@ -113,8 +113,9 @@ async function generateExplanation(topic: string): Promise<any> {
     });
 
     return results;
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("OpenAI API error:", error);
-    throw new Error(`Failed to generate explanation: ${error.message}`);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    throw new Error(`Failed to generate explanation: ${errorMessage}`);
   }
 }

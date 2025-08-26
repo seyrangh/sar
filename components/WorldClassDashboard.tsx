@@ -232,8 +232,8 @@ export default function WorldClassDashboard() {
             Sar, I am proud of you. I hope this first semester goes smoothly.
           </h3>
           <p className="text-lg text-white/90 mb-6 max-w-2xl mx-auto">
-            Even though I'm watching from afar, I'm rooting for you every step
-            of the way. You're going to do absolutely amazing things, and I
+            Even though I&apos;m watching from afar, I&apos;m rooting for you every step
+            of the way. You&apos;re going to do absolutely amazing things, and I
             believe in you completely.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

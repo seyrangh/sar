@@ -63,12 +63,13 @@ export async function POST(request: NextRequest) {
       timestamp: Date.now(),
       message: "Summary generated successfully",
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Summary generation error:", error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     return NextResponse.json(
       {
         error: "Internal server error during summary generation",
-        details: error.message,
+        details: errorMessage,
       },
       { status: 500 }
     );
@@ -113,8 +114,9 @@ Provide a well-structured, comprehensive summary that medical students and profe
     return (
       completion.choices[0]?.message?.content || "Failed to generate summary"
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("OpenAI API error:", error);
-    throw new Error(`Failed to generate summary: ${error.message}`);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    throw new Error(`Failed to generate summary: ${errorMessage}`);
   }
 }
