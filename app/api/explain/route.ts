@@ -49,19 +49,20 @@ export async function POST(request: NextRequest) {
       timestamp: Date.now(),
       message: "Explanations generated successfully",
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Explanation generation error:", error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     return NextResponse.json(
       {
         error: "Internal server error during explanation generation",
-        details: error.message,
+        details: errorMessage,
       },
       { status: 500 }
     );
   }
 }
 
-async function generateExplanation(topic: string): Promise<any> {
+async function generateExplanation(topic: string): Promise<Record<string, string>> {
   try {
     const prompts = {
       simplified: `Explain "${topic}" in simple terms that a first-year medical student can easily understand. Use analogies and everyday language. Focus on the basic concept without overwhelming details.`,
@@ -115,7 +116,8 @@ async function generateExplanation(topic: string): Promise<any> {
     return results;
   } catch (error: unknown) {
     console.error("OpenAI API error:", error);
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    const errorMessage =
+      error instanceof Error ? error.message : "Unknown error";
     throw new Error(`Failed to generate explanation: ${errorMessage}`);
   }
 }
